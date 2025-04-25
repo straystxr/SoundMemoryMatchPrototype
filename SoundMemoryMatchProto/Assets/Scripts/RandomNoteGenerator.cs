@@ -16,7 +16,7 @@ public class RandomNoteGenerator : MonoBehaviour
     void Start()
     {
         //kept showing ambuguity error without unityengine
-        int range = UnityEngine.Random.Range(1, notesPrefabs.Length);
+        int range = UnityEngine.Random.Range(0, notesPrefabs.Length);
         //gameobject for spawn point
         GameObject spawningOfNote = notesPrefabs[range];
         Debug.Log(range);
