@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4115544084170814167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3273803611828373128}
+  - component: {fileID: 8100034431720517174}
+  m_Layer: 0
+  m_Name: RandomNoteGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3273803611828373128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115544084170814167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.02, y: -2.99, z: 0.036899365}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8100034431720517174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115544084170814167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4991873228b431f46a6720909e8c7a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomNoteGenerator: {fileID: 4115544084170814167}
+  notesPrefabs:
+  - {fileID: 3031801923418864336, guid: 374b0ddc20465524e840d139a7d55bd0, type: 3}
+  - {fileID: 8377180378971481338, guid: 6625c22714a791046952d4c795a17bfe, type: 3}
+  - {fileID: 8345233024708236126, guid: 8bc32c3b86001194dbc611868e261bd8, type: 3}
+  - {fileID: 7994433749308688715, guid: ea0224c26414f4143b59cad3a7c74e9e, type: 3}
+  - {fileID: 7116589398047502055, guid: c3dd1df2cea955745be7cc031ee4c958, type: 3}
+  - {fileID: 1573928413894735973, guid: 719fdd832b3f7c0479a23fa77f89ef40, type: 3}
+  - {fileID: 6677355072223248365, guid: d1ad6628501ae6946bf5cf49c41a344c, type: 3}
+  spawnPoint: {fileID: 3273803611828373128}
+  timerText: {fileID: 0}

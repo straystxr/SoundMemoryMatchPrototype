@@ -9,6 +9,7 @@ public class RandomNoteGenerator : MonoBehaviour
     public GameObject randomNoteGenerator;
     //list of array with music notes
     //string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
+    //creating a list of prefabs which can have a gameobject within it
     public GameObject[] notesPrefabs;
 
     //transform variable to get position of the actual spawn point which in this case is the spawning of note variable
@@ -28,6 +29,7 @@ public class RandomNoteGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //while the timer is true the timer will go on until it reaches 0
         if(timerStatus)
         {
             timeLeft -= Time.deltaTime;
@@ -38,9 +40,11 @@ public class RandomNoteGenerator : MonoBehaviour
 
     }
 
+    //coroutine to loop spawning of notes
     IEnumerator spawnNotes()
     {
         while (timerStatus) {
+            //adding conditioner that if the timer is more than zero the notes will spawn
             if (timeLeft > 0)
             {
                 //kept showing ambuguity error without unityengine
@@ -54,6 +58,7 @@ public class RandomNoteGenerator : MonoBehaviour
                 Destroy(spawningOfNote, 1f);
                 yield return new WaitForSeconds(1f);
             }
+            //else condition will turn the boolean variable into false and stopping the timer plus spawning of notes
             else
             {
                 timerStatus = false;
