@@ -27,7 +27,7 @@ public class RandomNoteGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        spawnNotes();
+        SpawnNotes();
     }
 
     // Update is called once per frame
@@ -41,6 +41,13 @@ public class RandomNoteGenerator : MonoBehaviour
             timeLeft = Mathf.Max(0f, timeLeft);
             timerText.text = timeLeft.ToString();
         }
+        else
+        {
+            timerStatus = false;
+            Debug.Log("Time is over");
+            //a function is done to destroy the created notes
+            //clearNotes();
+        }
 
     }
     void SpawnNotes()
@@ -50,8 +57,21 @@ public class RandomNoteGenerator : MonoBehaviour
         //chooses the correct note randomly
         correctNoteIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
 
+        //spawning the actual correct note to match with
         int correctSpawnPoint = UnityEngine.Random.Range(0, spawnedNotes.Length);
-        GameObject correctNote = Instantiate(notesPrefabs[correctNoteIndex], spawnPoint[correctSpawnPoint].position, Quaternion.identity)
+        GameObject correctNote = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
+
+        //filling in random notes in the rest of the spawn points
+        for(int i = 0; i < spawnedNotes.Length; i++)
+        {
+            //this condition is set to not allow any repetition of the same note but how will it actually spawn the other note to match with??? confusion is real rn
+            if (i == correctSpawnPoint) 
+                continue;
+            //add a loop for a counter to reach 7 different outputs
+            //randomising the index for the rest of the cards
+            int randomIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
+
+        }
            /* //adding conditioner that if the timer is more than zero the notes will spawn
             if (timeLeft > 0)
             {
