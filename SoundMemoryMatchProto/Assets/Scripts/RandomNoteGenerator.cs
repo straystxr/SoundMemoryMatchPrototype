@@ -11,9 +11,13 @@ public class RandomNoteGenerator : MonoBehaviour
     //string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
     //creating a list of prefabs which can have a gameobject within it
     public GameObject[] notesPrefabs;
+    private GameObject[] spawnedNotes; //tracks the spawned notes
 
     //transform variable to get position of the actual spawn point which in this case is the spawning of note variable
     public Transform spawnPoint;
+    public Transform[] spawnPoints; //spawns multiple locations
+    private int correctNoteIndex; // variable to be assigne to correct notes
+
 
     //variables for timer 
     [SerializeField] TextMeshProUGUI timerText;
@@ -23,7 +27,7 @@ public class RandomNoteGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(spawnNotes());
+        spawnNotes();
     }
 
     // Update is called once per frame
@@ -39,12 +43,16 @@ public class RandomNoteGenerator : MonoBehaviour
         }
 
     }
-
-    //coroutine to loop spawning of notes
-    IEnumerator spawnNotes()
+    void SpawnNotes()
     {
-        while (timerStatus) {
-            //adding conditioner that if the timer is more than zero the notes will spawn
+        spawnedNotes = new GameObject[spawnPoints.Length];
+
+        //chooses the correct note randomly
+        correctNoteIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
+
+        int correctSpawnPoint = UnityEngine.Random.Range(0, spawnedNotes.Length);
+        GameObject correctNote = Instantiate(notesPrefabs[correctNoteIndex], spawnPoint[correctSpawnPoint].position, Quaternion.identity)
+           /* //adding conditioner that if the timer is more than zero the notes will spawn
             if (timeLeft > 0)
             {
                 //kept showing ambuguity error without unityengine
@@ -63,8 +71,7 @@ public class RandomNoteGenerator : MonoBehaviour
             {
                 timerStatus = false;
                 Debug.Log("Notes have stopped spawning");
-            }
-        }
+            } */
 
     }
 }
