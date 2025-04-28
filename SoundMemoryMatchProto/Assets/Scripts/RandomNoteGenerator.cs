@@ -67,9 +67,19 @@ public class RandomNoteGenerator : MonoBehaviour
             //this condition is set to not allow any repetition of the same note but how will it actually spawn the other note to match with??? confusion is real rn
             if (i == correctSpawnPoint) 
                 continue;
+
+            int randomIndex;
+            //do while loop will execute the code in the do section and if the condition is true it will loop until it is false
+            do
+            {
+                randomIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
+            } while 
+            (randomIndex == correctNoteIndex);
+
+            spawnedNotes[i] = Instantiate(notesPrefabs[randomIndex], spawnPoints[i].position, Quaternion.identity);
             //add a loop for a counter to reach 7 different outputs
             //randomising the index for the rest of the cards
-            int randomIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
+            
 
         }
            /* //adding conditioner that if the timer is more than zero the notes will spawn
