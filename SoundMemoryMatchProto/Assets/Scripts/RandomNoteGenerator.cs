@@ -8,7 +8,7 @@ public class RandomNoteGenerator : MonoBehaviour
     //empty game object will be needed in the unity editor to allow the note to generate
     public GameObject randomNoteGenerator;
     //list of array with music notes
-    //string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
+    string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
     //creating a list of prefabs which can have a gameobject within it
     public GameObject[] notesPrefabs;
     private GameObject[] spawnedNotes; //tracks the spawned notes
