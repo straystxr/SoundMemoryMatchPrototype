@@ -11,9 +11,11 @@ public class PlayerControls : MonoBehaviour
     //score
     private int score = 0;
 
+    RandomNoteGenerator noteGenerator;
+
     private void Start()
     {
-        correctNote = Random.Range(0, 2);// notes.Length);
+        correctNote = Random.Range(0, notes.Length);
         Debug.Log($"Correct note is {notes[correctNote]}");
     }
 
@@ -39,6 +41,12 @@ public class PlayerControls : MonoBehaviour
         if (clickedNote.CompareTag(note))
         {
             Debug.Log("Correct note!");
+            score = score + 1;
+            Debug.Log("Score: " + score);
+            Destroy(clickedNote.gameObject); // only destroy clicked note
+            correctNote = Random.Range(0, notes.Length); // pick new correct note
+
+            noteGenerator.SpawnNotes();
         }
 
     }
