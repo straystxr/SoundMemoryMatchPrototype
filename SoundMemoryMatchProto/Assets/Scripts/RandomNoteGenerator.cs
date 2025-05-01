@@ -1,30 +1,33 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomNoteGenerator : MonoBehaviour
 {
-    //empty game object will be needed in the unity editor to allow the note to generate
-    public GameObject randomNoteGenerator;
-    //list of array with music notes
-    //string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
-    //creating a list of prefabs which can have a gameobject within it
+    // List of array with music notes
+    public string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
+
+    // Creating a list of prefabs which can have a game object within it
     public GameObject[] notesPrefabs;
-    private GameObject[] spawnedNotes; //tracks the spawned notes
+    private GameObject[] spawnedNotes; // Tracks the spawned notes
 
-    //transform variable to get position of the actual spawn point which in this case is the spawning of note variable
-    public Transform spawnPoint;
-    public Transform[] spawnPoints; //spawns multiple locations
-    private int correctNoteIndex; // variable to be assigne to correct notes
+    public GameObject[] correctSpawnPoint;
 
+    // Transform variable to get position of the actual spawn point which in this case is the spawning of note variable
+    public Transform[] spawnPoints; // Spawns multiple locations
+    private int correctNoteIndex; // Variable to be assigned to correct notes
 
-    //variables for timer 
+    // Variables for timer
     [SerializeField] TextMeshProUGUI timerText;
     float timeLeft = 90f;
     bool timerStatus = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private int cnt = 0;
+
+    public Transform correctNoteSpawnPoint;
+    private GameObject correctNoteInstance;
     void Start()
     {
         SpawnNotes();
@@ -33,11 +36,11 @@ public class RandomNoteGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //while the timer is true the timer will go on until it reaches 0
-        if(timerStatus)
+        // While the timer is true the timer will go on until it reaches 0
+        if (timerStatus)
         {
             timeLeft -= Time.deltaTime;
-            //will not allow the timer to go below 0 w the mathf.max
+            // Will not allow the timer to go below 0 with Mathf.Max
             timeLeft = Mathf.Max(0f, timeLeft);
             timerText.text = timeLeft.ToString();
         }
@@ -45,63 +48,78 @@ public class RandomNoteGenerator : MonoBehaviour
         {
             timerStatus = false;
             Debug.Log("Time is over");
-            //a function is done to destroy the created notes
-            //clearNotes();
+            // A function is done to destroy the created notes
+            // you should implement a function clearNotes();
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false; //if in scene view
+            #else
+                Application.Quit(); //if exe
+            #endif
         }
-
     }
+
     public void SpawnNotes()
     {
+        cnt ++;
+        Debug.Log("Spawn notes has been called "+cnt);
+        // Destroy old notes if they exist
+        if (spawnedNotes != null)
+        {
+            foreach (GameObject note in spawnedNotes)
+            {
+                if (note != null)
+                {
+                    Destroy(note);
+                }
+            }
+        }
+        //destroys the correct note gameovject when its correct
+        if (correctNoteInstance != null){
+            Destroy(correctNoteInstance);
+        }
+
+
+
+
         spawnedNotes = new GameObject[spawnPoints.Length];
 
-        //chooses the correct note randomly
-        correctNoteIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
+        // Chooses the correct note randomly
+        correctNoteIndex = UnityEngine.Random.Range(0, notes.Length);
 
-        //spawning the actual correct note to match with
-        int correctSpawnPoint = UnityEngine.Random.Range(0, spawnedNotes.Length);
-        GameObject correctNote = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
+        // Spawning the actual correct note to match with
+        int correctSpawnPoint = UnityEngine.Random.Range(0, spawnPoints.Length);
+        spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
 
-        //filling in random notes in the rest of the spawn points
-        for(int i = 0; i < spawnedNotes.Length; i++)
+        //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
+        correctNoteInstance = Instantiate(notesPrefabs[correctNoteIndex], correctNoteSpawnPoint.position, Quaternion.identity);
+        correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
+
+        // Filling in random notes in the rest of the spawn points
+        for (int i = 0; i < spawnPoints.Length; i++)
         {
-            //this condition is set to not allow any repetition of the same note but how will it actually spawn the other note to match with??? confusion is real rn
-            if (i == correctSpawnPoint) 
+            if (i == correctSpawnPoint)
                 continue;
 
             int randomIndex;
-            //do while loop will execute the code in the do section and if the condition is true it will loop until it is false
             do
             {
-                randomIndex = UnityEngine.Random.Range(0, notesPrefabs.Length);
-            } while 
-            (randomIndex == correctNoteIndex);
+                randomIndex = UnityEngine.Random.Range(0, notes.Length);
+            } while (randomIndex == correctNoteIndex);
 
             spawnedNotes[i] = Instantiate(notesPrefabs[randomIndex], spawnPoints[i].position, Quaternion.identity);
-            //add a loop for a counter to reach 7 different outputs
-            //randomising the index for the rest of the cards
-            
-
         }
-           /* //adding conditioner that if the timer is more than zero the notes will spawn
-            if (timeLeft > 0)
-            {
-                //kept showing ambuguity error without unityengine
-                int range = UnityEngine.Random.Range(0, notesPrefabs.Length);
-                //gameobject for spawn point
-                //spawning the actual notes
-                GameObject spawningOfNote = Instantiate(notesPrefabs[range], spawnPoint.position, Quaternion.identity);
-                Debug.Log(range);
 
-                //destroying and then spawning a new note every second
-                Destroy(spawningOfNote, 1f);
-                yield return new WaitForSeconds(1f);
-            }
-            //else condition will turn the boolean variable into false and stopping the timer plus spawning of notes
-            else
-            {
-                timerStatus = false;
-                Debug.Log("Notes have stopped spawning");
-            } */
+        // Debugging to check which note is correct and where it is spawned
+        Debug.Log($"Correct note is {notes[correctNoteIndex]} at spawn point {correctSpawnPoint + 1}");
+    }
 
+    public string GetNote(int index)
+    {
+        return notes[index];
+    }
+
+    public int GetCorrectNoteIndex()
+    {
+        return correctNoteIndex;
     }
 }
