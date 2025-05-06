@@ -113,6 +113,7 @@ public class RandomNoteGenerator : MonoBehaviour
         Debug.Log($"Correct note is {notes[correctNoteIndex]} at spawn point {correctSpawnPoint + 1}");
     }
 
+    //int index is a parameter to call the actual index of the notes
     public string GetNote(int index)
     {
         return notes[index];
