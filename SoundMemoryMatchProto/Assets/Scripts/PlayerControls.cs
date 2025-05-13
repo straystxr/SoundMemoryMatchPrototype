@@ -13,7 +13,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
-        noteGenerator = FindObjectOfType<RandomNoteGenerator>(); // Get the note generator component
+        noteGenerator = FindAnyObjectByType<RandomNoteGenerator>(); // Get the note generator component
         if (noteGenerator == null)
         {
             Debug.LogError("RandomNoteGenerator not found!");
@@ -35,29 +35,32 @@ public class PlayerControls : MonoBehaviour
         //check if something was clicked
         Collider2D clickedNote = Physics2D.OverlapPoint(worldPos);
 
-        if (clickedNote == null)
+        if (clickedNote == null || clickedNote.GetComponent<NotePlayer>() != null)
         {
             return; //STOOOOOOOOOOOOOOOPS the function
         }
 
         //If the clicked note add it to the score and then go to the spawn notes method in the random note generator scripts
-        if (noteGenerator != null && clickedNote.CompareTag(noteGenerator.GetNote(noteGenerator.GetCorrectNoteIndex())))
+        var isNote = clickedNote.CompareTag(noteGenerator.GetNote(noteGenerator.GetCorrectNoteIndex()));
+
+        if (noteGenerator != null && isNote)
         {
             Debug.Log("Correct note!");
             score += 10;
             
             Debug.Log("Score: " + score);
             
-            Destroy(clickedNote.gameObject);
+            
 
-            StartCoroutine(CooldownCouritine());
-            noteGenerator.SpawnNotes();
+            StartCoroutine(CooldownCouritine(clickedNote));
         }
     }
 
-    private IEnumerator CooldownCouritine(){
+    private IEnumerator CooldownCouritine(Collider2D clickedNote){
         isCooldown = true;
         yield return new WaitForSeconds(0.5f);
+        Destroy(clickedNote.gameObject);
+        noteGenerator.SpawnNotes();
         isCooldown = false;
 
     }

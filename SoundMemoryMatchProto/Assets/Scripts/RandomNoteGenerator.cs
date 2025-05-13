@@ -90,10 +90,15 @@ public class RandomNoteGenerator : MonoBehaviour
 
         //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
         correctNoteInstance = Instantiate(notesPrefabs[correctNoteIndex], correctNoteSpawnPoint.position, Quaternion.identity);
-        correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
+        correctNoteInstance.AddComponent<NotePlayer>();
+
+        // correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
 
         // Filling in random notes in the rest of the spawn points
-        for (int i = 0; i < 3; i++)
+
+        //will find a minimum between 3 and 7
+        int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
+        for (int i = 0; i < totalNotes; i++)
         {
             if (i == correctSpawnPoint)
                 continue;
