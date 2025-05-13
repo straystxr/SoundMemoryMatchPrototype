@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RandomNoteGenerator : MonoBehaviour
 {
@@ -28,6 +27,9 @@ public class RandomNoteGenerator : MonoBehaviour
 
     public Transform correctNoteSpawnPoint;
     private GameObject correctNoteInstance;
+
+    //bool variable to prevent scene from loading in the Update()
+    private bool sceneLoadingStarted = false; 
     void Start()
     {
         SpawnNotes();
@@ -36,30 +38,28 @@ public class RandomNoteGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // While the timer is true the timer will go on until it reaches 0
         if (timerStatus)
         {
             timeLeft -= Time.deltaTime;
-            // Will not allow the timer to go below 0 with Mathf.Max
             timeLeft = Mathf.Max(0f, timeLeft);
-            timerText.text = timeLeft.ToString();
+            timerText.text = timeLeft.ToString("F0");
+
+            if (timeLeft <= 0f)
+            {
+                timerStatus = false;
+            }
         }
-        else
+        else if (!sceneLoadingStarted)
         {
-            timerStatus = false;
-            Debug.Log("Time is over");
-            // A function is done to destroy the created notes
-            // you should implement a function clearNotes();
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false; //if in scene view
-            #else
-                Application.Quit(); //if exe
-            #endif
+            sceneLoadingStarted = true;
+            Debug.Log("Time is over — loading scene...");
+            StartCoroutine(LoadGameOverSceneAfterDelay(1f));
         }
     }
 
     public void SpawnNotes()
     {
+        //count variable adds by 1
         cnt ++;
         Debug.Log("Spawn notes has been called "+cnt);
         // Destroy old notes if they exist
@@ -78,16 +78,14 @@ public class RandomNoteGenerator : MonoBehaviour
             Destroy(correctNoteInstance);
         }
 
-
-
-
         spawnedNotes = new GameObject[spawnPoints.Length];
 
         // Chooses the correct note randomly
-        correctNoteIndex = UnityEngine.Random.Range(0, notes.Length);
+        correctNoteIndex = Random.Range(0, notes.Length);
 
+        //add 2 variables a round variables and a list length variable
         // Spawning the actual correct note to match with
-        int correctSpawnPoint = UnityEngine.Random.Range(0, spawnPoints.Length);
+        int correctSpawnPoint = Random.Range(0, 3);
         spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
 
         //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
@@ -95,7 +93,7 @@ public class RandomNoteGenerator : MonoBehaviour
         correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
 
         // Filling in random notes in the rest of the spawn points
-        for (int i = 0; i < spawnPoints.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (i == correctSpawnPoint)
                 continue;
@@ -103,7 +101,7 @@ public class RandomNoteGenerator : MonoBehaviour
             int randomIndex;
             do
             {
-                randomIndex = UnityEngine.Random.Range(0, notes.Length);
+                randomIndex = Random.Range(0, notes.Length);
             } while (randomIndex == correctNoteIndex);
 
             spawnedNotes[i] = Instantiate(notesPrefabs[randomIndex], spawnPoints[i].position, Quaternion.identity);
@@ -111,6 +109,36 @@ public class RandomNoteGenerator : MonoBehaviour
 
         // Debugging to check which note is correct and where it is spawned
         Debug.Log($"Correct note is {notes[correctNoteIndex]} at spawn point {correctSpawnPoint + 1}");
+    }
+
+    /*
+    public void clearNotes()
+    {
+        // Destroy all spawned notes
+        if (spawnedNotes != null)
+        {
+            //loop to check that each spawn point gets destroyed 
+            foreach (GameObject note in spawnedNotes)
+            {
+                if (note != null)
+                {
+                    Destroy(note);
+                }
+            }
+        }
+
+        // Destroy the correct note instance
+        if (correctNoteInstance != null)
+        {
+            Destroy(correctNoteInstance);
+        }
+    } */
+
+
+    IEnumerator LoadGameOverSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("GameOverScene");
     }
 
     //int index is a parameter to call the actual index of the notes
