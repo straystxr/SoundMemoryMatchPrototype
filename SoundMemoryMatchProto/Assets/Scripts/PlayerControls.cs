@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TMPro;
 public class PlayerControls : MonoBehaviour
 {
     private Vector2 mousePosition;
@@ -8,6 +9,7 @@ public class PlayerControls : MonoBehaviour
     private bool isCooldown = false; // Cooldown variable
 
     RandomNoteGenerator noteGenerator; // Reference to the note generator
+    [SerializeField] TextMeshProUGUI scoreText;
 
     private void Start()
     {
@@ -43,7 +45,9 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("Correct note!");
             score += 10;
+            
             Debug.Log("Score: " + score);
+            
             Destroy(clickedNote.gameObject);
 
             StartCoroutine(CooldownCouritine());
