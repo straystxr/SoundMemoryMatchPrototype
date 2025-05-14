@@ -16,7 +16,7 @@ public class PlayerControls : MonoBehaviour
         noteGenerator = FindAnyObjectByType<RandomNoteGenerator>(); // Get the note generator component
         if (noteGenerator == null)
         {
-            Debug.LogError("RandomNoteGenerator not found!");
+            Debug.Log("RandomNoteGenerator not found!");
         }
     }
 

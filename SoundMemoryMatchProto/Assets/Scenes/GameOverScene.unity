@@ -536,7 +536,6 @@ GameObject:
   - component: {fileID: 1024621435}
   - component: {fileID: 1024621437}
   - component: {fileID: 1024621438}
-  - component: {fileID: 1024621439}
   - component: {fileID: 1024621440}
   m_Layer: 0
   m_Name: UIManager
@@ -618,31 +617,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreText: {fileID: 0}
---- !u!114 &1024621439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024621432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4991873228b431f46a6720909e8c7a30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  notes:
-  - A
-  - B
-  - C
-  - D
-  - E
-  - F
-  - G
-  notesPrefabs: []
-  correctSpawnPoint: []
-  spawnPoints: []
-  timerText: {fileID: 0}
-  correctNoteSpawnPoint: {fileID: 0}
 --- !u!82 &1024621440
 AudioSource:
   m_ObjectHideFlags: 0
