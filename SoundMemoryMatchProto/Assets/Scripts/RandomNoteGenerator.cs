@@ -13,6 +13,7 @@ public class RandomNoteGenerator : MonoBehaviour
     public GameObject[] notesPrefabs;
     private GameObject[] spawnedNotes; // Tracks the spawned notes
 
+    public GameObject unknownCard;
     public GameObject[] correctSpawnPoint;
 
     // Transform variable to get position of the actual spawn point which in this case is the spawning of note variable
@@ -84,6 +85,8 @@ public class RandomNoteGenerator : MonoBehaviour
         // Chooses the correct note randomly
         correctNoteIndex = Random.Range(0, notes.Length);
 
+
+
         //add 2 variables a round variables and a list length variable
         // Spawning the actual correct note to match with
         int correctSpawnPoint = Random.Range(0, 3);
@@ -143,7 +146,8 @@ public class RandomNoteGenerator : MonoBehaviour
 
     IEnumerator LoadGameOverSceneAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        //delay of 3 seconds to avoid the score not being updated as it is a constant issue
+        yield return new WaitForSeconds(3f);
 
         //finding the playerControls script to get access to the score
         PlayerControls playerControls = FindAnyObjectByType<PlayerControls>();
