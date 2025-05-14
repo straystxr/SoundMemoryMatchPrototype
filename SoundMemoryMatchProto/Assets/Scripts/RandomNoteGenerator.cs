@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class RandomNoteGenerator : MonoBehaviour
 {
@@ -100,6 +101,7 @@ public class RandomNoteGenerator : MonoBehaviour
         int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
         for (int i = 0; i < totalNotes; i++)
         {
+            //need to set a condition so that after 10 rounds the card asset for the correct note will be the blank card
             if (i == correctSpawnPoint)
                 continue;
 
@@ -139,10 +141,22 @@ public class RandomNoteGenerator : MonoBehaviour
         }
     } */
 
-
     IEnumerator LoadGameOverSceneAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        //finding the playerControls script to get access to the score
+        PlayerControls playerControls = FindAnyObjectByType<PlayerControls>();
+        if (playerControls != null)
+        {
+            int finalScore = playerControls.GetScore();
+            PlayerPrefs.SetInt("FinalScore", finalScore);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.Log("Player Controls not found!");
+        }
         SceneManager.LoadScene("GameOverScene");
     }
 

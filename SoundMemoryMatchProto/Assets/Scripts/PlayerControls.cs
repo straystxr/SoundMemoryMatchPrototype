@@ -5,7 +5,7 @@ using TMPro;
 public class PlayerControls : MonoBehaviour
 {
     private Vector2 mousePosition;
-    private int score = 0;
+    public int score = 0;
     private bool isCooldown = false; // Cooldown variable
 
     RandomNoteGenerator noteGenerator; // Reference to the note generator
@@ -47,7 +47,8 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("Correct note!");
             score += 10;
-            
+            scoreText.text = score.ToString();
+
             Debug.Log("Score: " + score);
             
             
@@ -63,5 +64,11 @@ public class PlayerControls : MonoBehaviour
         noteGenerator.SpawnNotes();
         isCooldown = false;
 
+    }
+
+    public int GetScore()
+    {
+        Debug.Log("Returning Score" + score);
+        return score;
     }
 }
