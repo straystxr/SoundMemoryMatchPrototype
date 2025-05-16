@@ -13,7 +13,10 @@ public class RandomNoteGenerator : MonoBehaviour
     public GameObject[] notesPrefabs;
     private GameObject[] spawnedNotes; // Tracks the spawned notes
 
+    //gameobject variable to spawn the blank ccard
     public GameObject unknownCard;
+    //array of audioclips for the blank card
+    public AudioClip[] noteClips; 
     public GameObject[] correctSpawnPoint;
 
     // Transform variable to get position of the actual spawn point which in this case is the spawning of note variable
@@ -93,8 +96,27 @@ public class RandomNoteGenerator : MonoBehaviour
         spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
 
         //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
-        correctNoteInstance = Instantiate(notesPrefabs[correctNoteIndex], correctNoteSpawnPoint.position, Quaternion.identity);
-        correctNoteInstance.AddComponent<NotePlayer>();
+        //correctNoteInstance = Instantiate(unknownCard, correctNoteSpawnPoint.position, Quaternion.identity);
+        //NotePlayer notePlayer = correctNoteInstance.AddComponent<NotePlayer>();
+        //notePlayer.noteClip = noteClips[correctNoteIndex];
+        if (correctNoteInstance != null)
+        {
+            Destroy(correctNoteInstance);
+        }
+        //need to set a condition so that after 10 rounds the card asset for the correct note will be the blank card
+        if (cnt >= 5)
+        {
+            //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
+            correctNoteInstance = Instantiate(unknownCard, correctNoteSpawnPoint.position, Quaternion.identity);
+            NotePlayer notePlayer = correctNoteInstance.AddComponent<NotePlayer>();
+            notePlayer.noteClip = noteClips[correctNoteIndex];
+        }
+        else
+        {
+            correctNoteInstance = Instantiate(notesPrefabs[correctNoteIndex], correctNoteSpawnPoint.position, Quaternion.identity);
+            correctNoteInstance.AddComponent<NotePlayer>();
+
+        }
 
         // correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
 
@@ -104,7 +126,7 @@ public class RandomNoteGenerator : MonoBehaviour
         int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
         for (int i = 0; i < totalNotes; i++)
         {
-            //need to set a condition so that after 10 rounds the card asset for the correct note will be the blank card
+
             if (i == correctSpawnPoint)
                 continue;
 
