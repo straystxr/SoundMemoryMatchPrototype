@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -88,11 +90,11 @@ public class RandomNoteGenerator : MonoBehaviour
         // Chooses the correct note randomly
         correctNoteIndex = Random.Range(0, notes.Length);
 
-
+        int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
 
         //add 2 variables a round variables and a list length variable
         // Spawning the actual correct note to match with
-        int correctSpawnPoint = Random.Range(0, 3);
+        int correctSpawnPoint = Random.Range(0, totalNotes);
         spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
 
         //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
@@ -123,20 +125,17 @@ public class RandomNoteGenerator : MonoBehaviour
         // Filling in random notes in the rest of the spawn points
 
         //will find a minimum between 3 and 7
-        int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
+        List<GameObject> avilableNotes = new List<GameObject>(notesPrefabs); // copy all the notes in a modifiable list
+        avilableNotes.RemoveAt(correctNoteIndex); // remove the correct note so there are no doubles
+
         for (int i = 0; i < totalNotes; i++)
         {
-
             if (i == correctSpawnPoint)
                 continue;
 
-            int randomIndex;
-            do
-            {
-                randomIndex = Random.Range(0, notes.Length);
-            } while (randomIndex == correctNoteIndex);
-
-            spawnedNotes[i] = Instantiate(notesPrefabs[randomIndex], spawnPoints[i].position, Quaternion.identity);
+            int randomIndex = Random.Range(0, avilableNotes.Count);
+            spawnedNotes[i] = Instantiate(avilableNotes[randomIndex], spawnPoints[i].position, Quaternion.identity);
+            avilableNotes.RemoveAt(randomIndex);
         }
 
         // Debugging to check which note is correct and where it is spawned
@@ -170,19 +169,6 @@ public class RandomNoteGenerator : MonoBehaviour
     {
         //delay of 3 seconds to avoid the score not being updated as it is a constant issue
         yield return new WaitForSeconds(3f);
-
-        //finding the playerControls script to get access to the score
-        PlayerControls playerControls = FindAnyObjectByType<PlayerControls>();
-        if (playerControls != null)
-        {
-            int finalScore = playerControls.GetScore();
-            PlayerPrefs.SetInt("FinalScore", finalScore);
-            PlayerPrefs.Save();
-        }
-        else
-        {
-            Debug.Log("Player Controls not found!");
-        }
         SceneManager.LoadScene("GameOverScene");
     }
 
