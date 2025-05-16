@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: c38010e47ef7e914e9027aff5ca8675d
+  - enabled: 1
+    path: Assets/Scenes/LearningNotesPage.unity
+    guid: 1caf01f1a31e67c418d32a462b9a27fd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
