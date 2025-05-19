@@ -57,7 +57,7 @@ public class RandomNoteGenerator : MonoBehaviour
         else if (!sceneLoadingStarted)
         {
             sceneLoadingStarted = true;
-            Debug.Log("Time is over — loading scene...");
+            Debug.Log("Time is over â€” loading scene...");
             StartCoroutine(LoadGameOverSceneAfterDelay(1f));
         }
     }

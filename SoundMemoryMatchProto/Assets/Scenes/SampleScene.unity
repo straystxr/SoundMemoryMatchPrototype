@@ -634,15 +634,8 @@ MonoBehaviour:
   - {fileID: 7116589398047502055, guid: c3dd1df2cea955745be7cc031ee4c958, type: 3}
   - {fileID: 1573928413894735973, guid: 719fdd832b3f7c0479a23fa77f89ef40, type: 3}
   - {fileID: 6677355072223248365, guid: d1ad6628501ae6946bf5cf49c41a344c, type: 3}
-  unknownCard: {fileID: 4071809476349096340, guid: 6f6de2d566534c64285922a3e9be1d06, type: 3}
-  noteClips:
-  - {fileID: 8300000, guid: e70a99e3c7b61e045b1d2e7704f6f921, type: 3}
-  - {fileID: 8300000, guid: 5efb3c9e65b722e47a668dd880358556, type: 3}
-  - {fileID: 8300000, guid: 79df1b0ae31b6e241817926992d2ba2a, type: 3}
-  - {fileID: 8300000, guid: a63440cc645f7374a82b1b98a27d1bd8, type: 3}
-  - {fileID: 8300000, guid: 6789a58d370bc434ea0c8748cfe22af8, type: 3}
-  - {fileID: 8300000, guid: d99e7dc851b698e42bb8b38336a843f6, type: 3}
-  - {fileID: 8300000, guid: 0b8d7f2855bed2849b567367a143c87f, type: 3}
+  unknownCard: {fileID: 0}
+  noteClips: []
   correctSpawnPoint: []
   spawnPoints:
   - {fileID: 2145779049}
