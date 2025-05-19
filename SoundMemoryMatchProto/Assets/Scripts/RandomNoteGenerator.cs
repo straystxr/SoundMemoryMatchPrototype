@@ -8,6 +8,25 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class RandomNoteGenerator : MonoBehaviour
 {
+
+    public GameObject NegativeFeedback;
+    public GameObject PositiveFeedback;
+
+    public void OnNoteClicked(int clickedIndex)
+{
+    if (clickedIndex == correctNoteIndex)
+    {
+        Instantiate(PositiveFeedback, spawnPoints[clickedIndex].position, Quaternion.identity);
+    }
+    else
+    {
+        Instantiate(NegativeFeedback, spawnPoints[clickedIndex].position, Quaternion.identity);
+    }
+
+    SpawnNotes();
+
+}
+
     // List of array with music notes
     public string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
 
@@ -66,6 +85,32 @@ public class RandomNoteGenerator : MonoBehaviour
 
     public void SpawnNotes()
     {
+
+    spawnedNotes[i] = Instantiate(avilableNotes[randomIndex], spawnPoints[i].position, Quaternion.identity);
+
+// Attach the DragMouse component dynamically if not already attached
+DragMouse dragMouse = spawnedNotes[i].GetComponent<DragMouse>();
+if (dragMouse == null)
+{
+    dragMouse = spawnedNotes[i].AddComponent<DragMouse>();
+}
+
+dragMouse.noteIndex = i;
+dragMouse.noteGenerator = this;
+
+// For correct note instance:
+spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
+
+DragMouse dragMouseCorrect = spawnedNotes[correctSpawnPoint].GetComponent<DragMouse>();
+if (dragMouseCorrect == null)
+{
+    dragMouseCorrect = spawnedNotes[correctSpawnPoint].AddComponent<DragMouse>();
+}
+
+dragMouseCorrect.noteIndex = correctSpawnPoint;
+dragMouseCorrect.noteGenerator = this;
+
+
         //count variable adds by 1
         cnt ++;
         Debug.Log("Spawn notes has been called "+cnt);

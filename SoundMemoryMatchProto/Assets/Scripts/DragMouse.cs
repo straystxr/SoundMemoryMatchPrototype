@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class DragMouse : MonoBehaviour
 {
+
+    public int noteIndex;
+    public RandomNoteGenerator noteGenerator;
+
     private Vector2 mousePosition;
 
     private float offsetx;
@@ -18,6 +22,8 @@ public class DragMouse : MonoBehaviour
         offsetx = Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x;
         offsety = Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y;
         Debug.Log(offsetx + " " + offsety);
+
+        noteGenerator.OnNoteClicked(noteIndex);
 
     }
 
