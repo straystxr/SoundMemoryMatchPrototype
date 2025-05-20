@@ -40,21 +40,28 @@ public class PlayerControls : MonoBehaviour
             return; //STOOOOOOOOOOOOOOOPS the function
         }
 
+        if (noteGenerator == null)
+        {
+            return;
+        }
+
         //If the clicked note add it to the score and then go to the spawn notes method in the random note generator scripts
         var isNote = clickedNote.CompareTag(noteGenerator.GetNote(noteGenerator.GetCorrectNoteIndex()));
 
-        if (noteGenerator != null && isNote)
+        if (isNote == false)
         {
-            Debug.Log("Correct note!");
-            score += 10;
-            scoreText.text = score.ToString();
-
-            Debug.Log("Score: " + score);
-            
-            
-
-            StartCoroutine(CooldownCouritine(clickedNote));
+            noteGenerator.SpawnBadParticles(clickedNote.transform.position);
+            return;
         }
+
+        Debug.Log("Correct note!");
+        score += 10;
+        scoreText.text = score.ToString();
+
+        Debug.Log("Score: " + score);
+            
+        noteGenerator.SpawnGoodParticles(clickedNote.transform.position);
+        StartCoroutine(CooldownCouritine(clickedNote));
     }
 
     private IEnumerator CooldownCouritine(Collider2D clickedNote){

@@ -12,32 +12,27 @@ public class RandomNoteGenerator : MonoBehaviour
     public GameObject NegativeFeedback;
     public GameObject PositiveFeedback;
 
-    public void OnNoteClicked(int clickedIndex)
-{
-    if (clickedIndex == correctNoteIndex)
+    public void SpawnBadParticles(Vector3 position)
     {
-        Instantiate(PositiveFeedback, spawnPoints[clickedIndex].position, Quaternion.identity);
-    }
-    else
-    {
-        Instantiate(NegativeFeedback, spawnPoints[clickedIndex].position, Quaternion.identity);
+        Instantiate(NegativeFeedback, position, Quaternion.identity);
     }
 
-    SpawnNotes();
-
-}
+    public void SpawnGoodParticles(Vector3 position)
+    {
+        Instantiate(PositiveFeedback, position, Quaternion.identity);
+    }
 
     // List of array with music notes
     public string[] notes = { "A", "B", "C", "D", "E", "F", "G" };
 
     // Creating a list of prefabs which can have a game object within it
     public GameObject[] notesPrefabs;
-    private GameObject[] spawnedNotes = new GameObject[7]; // Tracks the spawned notes
+    private GameObject[] spawnedNotes; // Tracks the spawned notes
 
     //gameobject variable to spawn the blank ccard
     public GameObject unknownCard;
     //array of audioclips for the blank card
-    public AudioClip[] noteClips; 
+    public AudioClip[] noteClips;
 
     // Transform variable to get position of the actual spawn point which in this case is the spawning of note variable
     public Transform[] spawnPoints; // Spawns multiple locations
@@ -54,7 +49,7 @@ public class RandomNoteGenerator : MonoBehaviour
     private GameObject correctNoteInstance;
 
     //bool variable to prevent scene from loading in the Update()
-    private bool sceneLoadingStarted = false; 
+    private bool sceneLoadingStarted = false;
     void Start()
     {
         SpawnNotes();
@@ -84,21 +79,6 @@ public class RandomNoteGenerator : MonoBehaviour
 
     public void SpawnNotes()
     {
-
-int totalNotes = Mathf.Min(3 + (cnt / 5), spawnPoints.Length); // Clamp between 3–7
-
-int correctSpawnPoint = Random.Range(0, totalNotes); // Choose where to place the correct note
-
-// Instantiate correct note
-spawnedNotes[correctSpawnPoint] = Instantiate(
-    notesPrefabs[correctNoteIndex],
-    spawnPoints[correctSpawnPoint].position,
-    Quaternion.identity
-);
-
-        //count variable adds by 1
-        cnt ++;
-        Debug.Log("Spawn notes has been called "+cnt);
         // Destroy old notes if they exist
         if (spawnedNotes != null)
         {
@@ -111,25 +91,29 @@ spawnedNotes[correctSpawnPoint] = Instantiate(
             }
         }
         //destroys the correct note gameovject when its correct
-        if (correctNoteInstance != null){
+        if (correctNoteInstance != null)
+        {
             Destroy(correctNoteInstance);
         }
 
-        spawnedNotes = new GameObject[spawnPoints.Length];
+        cnt++;
+        Debug.Log("Spawn notes has been called " + cnt);
 
-        // Chooses the correct note randomly
+        //clamping
+        int totalNotes = Mathf.Min(3 + (cnt / 5), spawnPoints.Length); // Clamp between 3–7
+        spawnedNotes = new GameObject[totalNotes];
+
+
+        //setting the correct note index
         correctNoteIndex = Random.Range(0, notes.Length);
+        int correctSpawnPoint = Random.Range(0, totalNotes); // Choose where to place the correct note
 
-        //int totalNotes = Mathf.Min(3 + (cnt / 5), 7);
-
-        //add 2 variables a round variables and a list length variable
-        // Spawning the actual correct note to match with
+        // Instantiate correct note
         spawnedNotes[correctSpawnPoint] = Instantiate(notesPrefabs[correctNoteIndex], spawnPoints[correctSpawnPoint].position, Quaternion.identity);
 
-        //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
-        //correctNoteInstance = Instantiate(unknownCard, correctNoteSpawnPoint.position, Quaternion.identity);
-        //NotePlayer notePlayer = correctNoteInstance.AddComponent<NotePlayer>();
-        //notePlayer.noteClip = noteClips[correctNoteIndex];
+        //removed cause of overriding
+        //spawnedNotes = new GameObject[spawnPoints.Length];
+
         if (correctNoteInstance != null)
         {
             Destroy(correctNoteInstance);
@@ -170,29 +154,6 @@ spawnedNotes[correctSpawnPoint] = Instantiate(
         // Debugging to check which note is correct and where it is spawned
         Debug.Log($"Correct note is {notes[correctNoteIndex]} at spawn point {correctSpawnPoint + 1}");
     }
-
-    /*
-    public void clearNotes()
-    {
-        // Destroy all spawned notes
-        if (spawnedNotes != null)
-        {
-            //loop to check that each spawn point gets destroyed 
-            foreach (GameObject note in spawnedNotes)
-            {
-                if (note != null)
-                {
-                    Destroy(note);
-                }
-            }
-        }
-
-        // Destroy the correct note instance
-        if (correctNoteInstance != null)
-        {
-            Destroy(correctNoteInstance);
-        }
-    } */
 
     IEnumerator LoadGameOverSceneAfterDelay(float delay)
     {

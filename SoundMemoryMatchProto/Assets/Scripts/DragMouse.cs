@@ -23,7 +23,7 @@ public class DragMouse : MonoBehaviour
         offsety = Camera.main.ScreenToWorldPoint(Input.mousePosition).y - transform.position.y;
         Debug.Log(offsetx + " " + offsety);
 
-        noteGenerator.OnNoteClicked(noteIndex);
+        //noteGenerator.OnNoteClicked(noteIndex);
 
     }
 
