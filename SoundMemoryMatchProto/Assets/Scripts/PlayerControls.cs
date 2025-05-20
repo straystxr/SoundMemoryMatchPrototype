@@ -5,7 +5,7 @@ using TMPro;
 public class PlayerControls : MonoBehaviour
 {
     private Vector2 mousePosition;
-    public int score = 0;
+    public static int score = 0;
     private bool isCooldown = false; // Cooldown variable
 
     RandomNoteGenerator noteGenerator; // Reference to the note generator
@@ -13,6 +13,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
+        score = 0;
         noteGenerator = FindAnyObjectByType<RandomNoteGenerator>(); // Get the note generator component
         if (noteGenerator == null)
         {
