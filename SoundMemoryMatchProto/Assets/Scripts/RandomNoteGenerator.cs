@@ -43,8 +43,10 @@ public class RandomNoteGenerator : MonoBehaviour
     float timeLeft = 90f;
     bool timerStatus = true;
 
+    //variable for rounds
     private int cnt = 0;
 
+    //variables for correct note spawn point and of prefab
     public Transform correctNoteSpawnPoint;
     private GameObject correctNoteInstance;
 
@@ -58,6 +60,7 @@ public class RandomNoteGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Timer to reduce over time every second
         if (timerStatus)
         {
             timeLeft -= Time.deltaTime;
@@ -71,12 +74,14 @@ public class RandomNoteGenerator : MonoBehaviour
         }
         else if (!sceneLoadingStarted)
         {
+            //if timer ends the GameOverScreen will start
             sceneLoadingStarted = true;
             Debug.Log("Time is over — loading scene...");
             StartCoroutine(LoadGameOverSceneAfterDelay(1f));
         }
     }
 
+    //function to spawn the assets into the scene using a random generator, rounds to add more cards with every couple of rounds
     public void SpawnNotes()
     {
         // Destroy old notes if they exist
@@ -96,6 +101,7 @@ public class RandomNoteGenerator : MonoBehaviour
             Destroy(correctNoteInstance);
         }
 
+        //round variable will be add by 1 with every correct guess to track at what round the card will no longer be visible
         cnt++;
         Debug.Log("Spawn notes has been called " + cnt);
 
@@ -118,29 +124,26 @@ public class RandomNoteGenerator : MonoBehaviour
         {
             Destroy(correctNoteInstance);
         }
-        //need to set a condition so that after 10 rounds the card asset for the correct note will be the blank card
-        if (cnt >= 5)
+        //need to set a condition so that after 7 rounds the card asset for the correct note will be the blank card
+        if (cnt >= 7)
         {
-            //This spawns the correct note on the bottom of the notes and makes it unclickable, it's important that this is called after the correctNoteIndex is initalised
+            //This spawns the correct note on the bottom of the notes and makes it clickable only for the sound, it's important that this is called after the correctNoteIndex is initalised
             correctNoteInstance = Instantiate(unknownCard, correctNoteSpawnPoint.position, Quaternion.identity);
             NotePlayer notePlayer = correctNoteInstance.AddComponent<NotePlayer>();
             notePlayer.noteClip = noteClips[correctNoteIndex];
         }
         else
         {
+            //If it is less than 7 rounds using the cnt variable the cards will spawn showing the matching sound of the correct card
             correctNoteInstance = Instantiate(notesPrefabs[correctNoteIndex], correctNoteSpawnPoint.position, Quaternion.identity);
             correctNoteInstance.AddComponent<NotePlayer>();
-
         }
 
-        // correctNoteInstance.GetComponent<Collider2D>().enabled = false; // Make it unclickable
-
         // Filling in random notes in the rest of the spawn points
-
-        //will find a minimum between 3 and 7
         List<GameObject> avilableNotes = new List<GameObject>(notesPrefabs); // copy all the notes in a modifiable list
         avilableNotes.RemoveAt(correctNoteIndex); // remove the correct note so there are no doubles
 
+        //loop that will spawn all the other random notes that aren't correct to fill in the other spawn points
         for (int i = 0; i < totalNotes; i++)
         {
             if (i == correctSpawnPoint)
@@ -155,6 +158,7 @@ public class RandomNoteGenerator : MonoBehaviour
         Debug.Log($"Correct note is {notes[correctNoteIndex]} at spawn point {correctSpawnPoint + 1}");
     }
 
+    //coroutine to delay the game over screen by only a few seconds
     IEnumerator LoadGameOverSceneAfterDelay(float delay)
     {
         //delay of 3 seconds to avoid the score not being updated as it is a constant issue
@@ -168,6 +172,7 @@ public class RandomNoteGenerator : MonoBehaviour
         return notes[index];
     }
 
+    //Function to call the correct note index
     public int GetCorrectNoteIndex()
     {
         return correctNoteIndex;

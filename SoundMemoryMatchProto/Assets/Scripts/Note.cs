@@ -6,6 +6,7 @@ public class Note : MonoBehaviour
 
     private void Start()
     {
+        //will get the audio source of every letter
         audioSource = GetComponent<AudioSource>();
     }
 

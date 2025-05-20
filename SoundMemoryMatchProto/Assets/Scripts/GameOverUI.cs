@@ -7,6 +7,7 @@ public class GameOverUI : MonoBehaviour
 
     void Start()
     {
+        //calling the score from the PlayerControls and carrying it over to the GameOverScene
         scoreText.text = PlayerControls.score.ToString();
     }
 }
