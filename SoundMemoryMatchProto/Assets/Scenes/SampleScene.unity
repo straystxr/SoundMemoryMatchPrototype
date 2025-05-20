@@ -643,8 +643,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ae51b6c63e708419ee6f3a3b427c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
   scoreText: {fileID: 1057960095}
+  robotAnimator: {fileID: 1027153065}
 --- !u!114 &629348564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1028,8 +1028,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ae51b6c63e708419ee6f3a3b427c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
   scoreText: {fileID: 0}
+  robotAnimator: {fileID: 0}
 --- !u!114 &1057960095
 MonoBehaviour:
   m_ObjectHideFlags: 0

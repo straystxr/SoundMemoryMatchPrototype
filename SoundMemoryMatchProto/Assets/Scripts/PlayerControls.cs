@@ -16,6 +16,9 @@ public class PlayerControls : MonoBehaviour
     private bool isCooldown = false; // Cooldown variable
     RandomNoteGenerator noteGenerator; // Reference to the note generator
 
+    //Variables to change animation from idle to sound
+    public Animator robotAnimator;
+
     private void Start()
     {
         score = 0;
@@ -74,6 +77,7 @@ public class PlayerControls : MonoBehaviour
         
         //the positive feedback particles will spawn if correct
         noteGenerator.SpawnGoodParticles(clickedNote.transform.position);
+        robotAnimator.SetTrigger("IsPlaying");
         StartCoroutine(CooldownCouritine(clickedNote));
     }
 
@@ -81,6 +85,7 @@ public class PlayerControls : MonoBehaviour
     private IEnumerator CooldownCouritine(Collider2D clickedNote){
         isCooldown = true;
         yield return new WaitForSeconds(0.5f);
+        robotAnimator.SetTrigger("IsNotPlaying");
         Destroy(clickedNote.gameObject);
         noteGenerator.SpawnNotes();
         isCooldown = false;
