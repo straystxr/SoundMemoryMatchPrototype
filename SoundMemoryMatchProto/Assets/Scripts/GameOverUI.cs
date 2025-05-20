@@ -7,6 +7,7 @@ public class GameOverUI : MonoBehaviour
 
     void Start()
     {
-        scoreText.text = PlayerControls.score.ToString();
+        int finalScore = PlayerPrefs.GetInt("FinalScore", 0);
+        scoreText.text = finalScore.ToString();
     }
 }
