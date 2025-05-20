@@ -85,6 +85,7 @@ public class PlayerControls : MonoBehaviour
     private IEnumerator CooldownCouritine(Collider2D clickedNote){
         isCooldown = true;
         yield return new WaitForSeconds(0.5f);
+        //will set off the other animation when incorrect
         robotAnimator.SetTrigger("IsNotPlaying");
         Destroy(clickedNote.gameObject);
         noteGenerator.SpawnNotes();
