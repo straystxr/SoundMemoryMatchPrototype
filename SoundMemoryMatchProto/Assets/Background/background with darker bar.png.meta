@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 46dcef4cef5217142914f5bfc76b25c4
+guid: 0a1b52283d126f24f96201bae4eaf848
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6818421181295498398
-    second: BACKGROUND_0
-  - first:
-      213: -4988630482710749221
-    second: BACKGROUND_1
-  - first:
-      213: -2302340967129116033
-    second: BACKGROUND_2
-  - first:
-      213: -1817444552738137502
-    second: BACKGROUND_3
+      213: -3817859254113944406
+    second: background with darker bar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BACKGROUND_0
+      name: background with darker bar_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2000
-        height: 2043
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26be1e7af0a1061a0800000000000000
-      internalID: -6818421181295498398
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BACKGROUND_1
-      rect:
-        serializedVersion: 2
-        x: 123
-        y: 127
-        width: 43
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bdf1752c103d4cab0800000000000000
-      internalID: -4988630482710749221
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BACKGROUND_2
-      rect:
-        serializedVersion: 2
-        x: 385
-        y: 208
-        width: 56
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f729076b6117c00e0800000000000000
-      internalID: -2302340967129116033
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BACKGROUND_3
-      rect:
-        serializedVersion: 2
-        x: 389
-        y: 191
-        width: 52
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 26a131bfec327c6e0800000000000000
-      internalID: -1817444552738137502
+      spriteID: aacb91c7c3d340bc0800000000000000
+      internalID: -3817859254113944406
       vertices: []
       indices: 
       edges: []
@@ -222,11 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      BACKGROUND_0: -6818421181295498398
-      BACKGROUND_1: -4988630482710749221
-      BACKGROUND_2: -2302340967129116033
-      BACKGROUND_3: -1817444552738137502
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
